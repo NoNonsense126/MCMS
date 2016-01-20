@@ -12,4 +12,11 @@
 
 @property NSString *name;
 
+@property NSString *detail;
+
+@property NSString *imageCreature;
+
+@property NSMutableArray *accessories;
+
+
 @end

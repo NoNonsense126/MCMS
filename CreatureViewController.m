@@ -9,7 +9,10 @@
 #import "CreatureViewController.h"
 #import "MagicalCreature.h"
 
-@interface CreatureViewController ()
+@interface CreatureViewController () <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -17,11 +20,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.detailLabel.text = self.creature.detail;
+    self.imageView.image = [UIImage imageNamed:self.creature.imageCreature];
 }
 
 - (IBAction)onEditButtonTapped:(UIBarButtonItem *)sender {
-    sender.title = @"Done";
+   
     
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Edit" message:@"Rename Creature" preferredStyle:UIAlertControllerStyleAlert];
     
@@ -33,10 +37,29 @@
         NSString *name = controller.textFields[0].text;
         self.creature.name = name;
         self.navigationItem.title = name;
+        
     }];
     
     [controller addAction:saveAction];
     
     [self presentViewController:controller animated:YES completion:nil];
 }
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Accessory" ];
+    
+    cell.textLabel.text = self.creature.accessories[indexPath.row];
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+{
+    return self.creature.accessories.count;
+}
+
+
 @end
